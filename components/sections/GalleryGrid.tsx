@@ -17,7 +17,7 @@ const GalleryGrid: React.FC<GalleryGridProps> = ({ onImageClick }) => {
           <h3 className="text-2xl font-serif-kr font-bold text-gray-800 leading-snug">저희 한번 보고 가실래요?</h3>
         </div>
         {/* 3 Columns, 1px Gap, 21 Photos */}
-        <div className="grid grid-cols-3 gap-[1px]">
+        <div className="grid grid-cols-3 gap-[2px]">
           {WEDDING_PHOTOS.map((src, i) => (
             <div 
               key={i} 

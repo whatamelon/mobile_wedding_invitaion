@@ -1,6 +1,6 @@
 export const GROOM_NAME = "홍승호";
 export const BRIDE_NAME = "서희주";
-export const WEDDING_DATE = "2025.03.21";
+export const WEDDING_DATE = "2026.03.21";
 export const WEDDING_TIME = "오후 2시";
 export const LOCATION_NAME = "우리들교회 판교채플";
 export const LOCATION_ADDRESS = "경기 성남시 분당구 안양판교로 1219";

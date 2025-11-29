@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { db } from '../firebase';
+import { doc, onSnapshot, updateDoc, increment, setDoc } from 'firebase/firestore';
 
 interface Particle {
   id: number;
@@ -12,23 +14,39 @@ interface Particle {
 }
 
 const HitCounter: React.FC = () => {
-  const [count, setCount] = useState(1240);
+  const [count, setCount] = useState(0);
   const [isExploding, setIsExploding] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
   const intervalRef = useRef<number | null>(null);
 
-  // Simulate hitting an API / Fake live counter
+  // DB 문서 참조 (컬렉션: 'wedding', 문서ID: 'stats')
+  const countDocRef = doc(db, 'wedding', 'stats');
+
+  // 1. DB에서 실시간으로 값 듣기 (구독)
   useEffect(() => {
-    const randomIncrement = Math.floor(Math.random() * 5) + 1;
-    const timer = setTimeout(() => {
-      setCount(prev => prev + randomIncrement);
-    }, 1000);
-    return () => clearTimeout(timer);
+    const unsubscribe = onSnapshot(countDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        setCount(docSnapshot.data().likes || 0);
+      } else {
+        // 문서가 없으면 초기값으로 생성 (최초 1회 실행됨)
+        setDoc(countDocRef, { likes: 0 });
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const handleClick = () => {
-    setCount(prev => prev + 1);
-    
+  const handleClick = async () => {
+    // 2. DB 값 증가시키기 (Atomic Increment)
+    // 여러 사람이 동시에 눌러도 정확하게 카운트되도록 increment 함수 사용
+    try {
+      await updateDoc(countDocRef, {
+        likes: increment(1)
+      });
+    } catch (error) {
+      console.error("Error updating count:", error);
+    }
+
     // Start animation sequence
     setIsExploding(true);
     const startTime = Date.now();
@@ -42,7 +60,7 @@ const HitCounter: React.FC = () => {
          y: (Math.random() - 0.5) * 250, // Vertical spread around center
          scale: Math.random() * 1.2 + 0.8,
          rotation: Math.random() * 360,
-         color: ['#88A874', '#A4C639', '#8EB4C9', '#A0C3D2', '#94AC7F'][Math.floor(Math.random() * 5)]
+         color: ['#fce7f3', '#fbcfe8', '#f9a8d4', '#f472b6', '#ec4899'][Math.floor(Math.random() * 5)]
        }]);
 
        // Cleanup particle after animation
@@ -86,18 +104,18 @@ const HitCounter: React.FC = () => {
         {/* Full Width Bottom Action Bar */}
         <motion.button 
           onClick={handleClick}
-          className="w-full bg-white/95 backdrop-blur-xl border-t border-[#E6F0E6] shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)] py-4 pb-8 flex items-center justify-center gap-2 active:bg-[#F5F9F2] transition-colors"
+          className="w-full bg-white/95 backdrop-blur-xl border-t border-[#ffe4e6] shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)] py-4 pb-8 flex items-center justify-center gap-2 active:bg-[#fff1f2] transition-colors"
           whileTap={{ scale: 0.98 }}
           animate={isExploding ? { 
-            backgroundColor: ["rgba(255, 255, 255, 0.95)", "rgba(245, 249, 242, 0.95)", "rgba(255, 255, 255, 0.95)"],
+            backgroundColor: ["rgba(255, 255, 255, 0.95)", "rgba(255, 241, 242, 0.95)", "rgba(255, 255, 255, 0.95)"],
             transition: { repeat: Infinity, duration: 0.4, ease: "easeInOut" } 
           } : {}}
         >
             <Heart 
-              className={`w-5 h-5 text-[#88A874] fill-[#88A874] ${isExploding ? 'animate-ping' : 'animate-pulse'}`} 
+              className={`w-5 h-5 text-[#fb7185] fill-[#fb7185] ${isExploding ? 'animate-ping' : 'animate-pulse'}`} 
             />
             <span className="text-lg font-bold text-gray-800 font-serif-kr">
-              축하의 마음 전하기 <span className="text-[#88A874] ml-1">{count.toLocaleString()}</span>
+              축하의 마음 전하기 <span className="text-[#fb7185] ml-1">{count.toLocaleString()}</span>
             </span>
         </motion.button>
 

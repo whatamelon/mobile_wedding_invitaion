@@ -10,7 +10,7 @@ const ShareSection: React.FC = () => {
           <MessageCircle className="fill-[#3b1e1e]" /> 카카오톡으로 공유하기
         </button>
         <p className="text-gray-400 text-xs mt-8">
-          © 2025 Seungho & Heeju. All rights reserved.
+          © 2026 Seungho & Heeju. All rights reserved.
         </p>
       </PopIn>
     </section>

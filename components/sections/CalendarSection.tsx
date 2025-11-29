@@ -23,6 +23,12 @@ const GoogleIcon = () => (
   </svg>
 );
 
+const NaverIcon = () => (
+  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.273 12.845L7.376 0H0v24h7.726V11.156L16.624 24H24V0h-7.727v12.845z"/>
+  </svg>
+);
+
 const Countdown: React.FC<{ targetDate: string }> = ({ targetDate }) => {
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
@@ -52,7 +58,7 @@ const Countdown: React.FC<{ targetDate: string }> = ({ targetDate }) => {
     <div className="flex flex-col items-center mx-2 sm:mx-3">
       <div className="relative">
         <span 
-          className={`block text-2xl sm:text-3xl font-english font-light tabular-nums ${label === 'DAYS' ? 'text-[#88A874] font-medium' : 'text-gray-800'}`}
+          className={`block text-2xl sm:text-3xl font-english font-light tabular-nums ${label === 'DAYS' ? 'text-[#fb7185] font-medium' : 'text-gray-800'}`}
         >
           {value < 10 && label !== 'DAYS' ? `0${value}` : value}
         </span>
@@ -89,25 +95,50 @@ const CalendarSection: React.FC = () => {
     window.open(url, '_blank');
   };
 
-  const handleDownloadCalendar = () => {
+  const handleNaverCalendar = () => {
     const title = `${GROOM_NAME} & ${BRIDE_NAME} 결혼식`;
     const description = "저희 두 사람의 새로운 시작을 함께 축복해 주세요.";
     const location = `${LOCATION_NAME} (${LOCATION_ADDRESS})`;
     const startDate = "20260321T140000";
     const endDate = "20260321T160000";
 
+    const url = `https://calendar.naver.com/action/calendar/insert?title=${encodeURIComponent(title)}&startDate=${startDate}&endDate=${endDate}&content=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+    window.open(url, '_blank');
+  };
+
+  const handleDownloadCalendar = () => {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isIOS && navigator.userAgent.includes('KAKAO')) {
+      alert("아이폰 카카오톡에서는 정상 작동하지 않을 수 있습니다. 우측 하단 점 세 개(...) > '다른 브라우저로 열기'를 이용해 주세요.");
+      return;
+    }
+    const title = `${GROOM_NAME} & ${BRIDE_NAME} 결혼식`;
+    const description = "저희 두 사람의 새로운 시작을 함께 축복해 주세요.";
+    const location = `${LOCATION_NAME} (${LOCATION_ADDRESS})`;
+    const startDate = "20260321T140000";
+    const endDate = "20260321T160000";
+
+    // ICS 파일 포맷 준수 (CRLF, 필수 필드 등)
+    const now = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    
     const icsContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
+      'PRODID:-//Wedding Invitation//KR',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
       'BEGIN:VEVENT',
       `DTSTART:${startDate}`,
       `DTEND:${endDate}`,
+      `DTSTAMP:${now}`,
+      `UID:${startDate}-${now}@wedding`,
       `SUMMARY:${title}`,
       `DESCRIPTION:${description}`,
       `LOCATION:${location}`,
       'END:VEVENT',
       'END:VCALENDAR'
-    ].join('\n');
+    ].join('\r\n');
 
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = window.URL.createObjectURL(blob);
@@ -128,31 +159,31 @@ const CalendarSection: React.FC = () => {
         </div>
         
         <div className="text-center mb-8">
-             <p className="text-[#88A874] font-english text-xs tracking-[0.3em] mb-3 uppercase">We Are Getting Married</p>
+             <p className="text-[#fb7185] font-english text-xs tracking-[0.3em] mb-3 uppercase">We Are Getting Married</p>
              <h2 className="text-xl font-serif-kr text-gray-800 mb-2">2026. 03. 21 토요일 오후 2시</h2>
            </div>
          <div className="bg-gray-50 rounded-2xl p-4 w-full max-w-[340px] mx-auto">
            <div className="grid grid-cols-7 gap-2 text-center text-sm text-gray-500 font-serif-kr">
-             <div className="text-red-400 py-1">일</div><div className="py-1">월</div><div className="py-1">화</div><div className="py-1">수</div><div className="py-1">목</div><div className="py-1">금</div><div className="py-1">토</div>
+             <div className="text-pink-400 py-1">일</div><div className="py-1">월</div><div className="py-1">화</div><div className="py-1">수</div><div className="py-1">목</div><div className="py-1">금</div><div className="py-1">토</div>
              {/* Week 1 */}
-             <div className="text-red-400 py-1">1</div><div className="py-1">2</div><div className="py-1">3</div><div className="py-1">4</div><div className="py-1">5</div><div className="py-1">6</div><div className="py-1">7</div>
+             <div className="text-pink-400 py-1">1</div><div className="py-1">2</div><div className="py-1">3</div><div className="py-1">4</div><div className="py-1">5</div><div className="py-1">6</div><div className="py-1">7</div>
              {/* Week 2 */}
-             <div className="text-red-400 py-1">8</div><div className="py-1">9</div><div className="py-1">10</div><div className="py-1">11</div><div className="py-1">12</div><div className="py-1">13</div><div className="py-1">14</div>
+             <div className="text-pink-400 py-1">8</div><div className="py-1">9</div><div className="py-1">10</div><div className="py-1">11</div><div className="py-1">12</div><div className="py-1">13</div><div className="py-1">14</div>
              {/* Week 3 */}
-             <div className="text-red-400 py-1">15</div><div className="py-1">16</div><div className="py-1">17</div><div className="py-1">18</div><div className="py-1">19</div><div className="py-1">20</div>
+             <div className="text-pink-400 py-1">15</div><div className="py-1">16</div><div className="py-1">17</div><div className="py-1">18</div><div className="py-1">19</div><div className="py-1">20</div>
              <div className="flex items-center justify-center">
                <div className="relative w-8 h-8 flex-shrink-0 flex items-center justify-center">
                  <span className="relative z-10 text-white font-bold pt-[1px]">21</span>
                  <motion.div 
                   layoutId="day-circle"
-                  className="absolute inset-0 bg-[#88A874] rounded-full z-0"
+                  className="absolute inset-0 bg-[#fb7185] rounded-full z-0"
                  />
                </div>
              </div>
              {/* Week 4 */}
-             <div className="text-red-400 py-1">22</div><div className="py-1">23</div><div className="py-1">24</div><div className="py-1">25</div><div className="py-1">26</div><div className="py-1">27</div><div className="py-1">28</div>
+             <div className="text-pink-400 py-1">22</div><div className="py-1">23</div><div className="py-1">24</div><div className="py-1">25</div><div className="py-1">26</div><div className="py-1">27</div><div className="py-1">28</div>
              {/* Week 5 */}
-             <div className="text-red-400 py-1">29</div><div className="py-1">30</div><div className="py-1">31</div>
+             <div className="text-pink-400 py-1">29</div><div className="py-1">30</div><div className="py-1">31</div>
            </div>
          </div>
          <div className="my-4">
@@ -161,7 +192,7 @@ const CalendarSection: React.FC = () => {
           <div className="flex justify-center mt-8">
             <button 
               onClick={() => setCalendarModalOpen(true)}
-              className="bg-[#F6F6F6] text-gray-600 px-6 py-3 rounded-full text-xs font-bold shadow-sm active:scale-95 flex items-center gap-2 transition-all hover:bg-gray-100 hover:text-[#88A874]"
+              className="bg-[#F6F6F6] text-gray-600 px-6 py-3 rounded-full text-xs font-bold shadow-sm active:scale-95 flex items-center gap-2 transition-all hover:bg-gray-100 hover:text-[#fb7185]"
             >
               <Calendar size={14} /> 캘린더에 일정 추가하기
             </button>
@@ -216,6 +247,15 @@ const CalendarSection: React.FC = () => {
                     className="w-full py-3.5 px-4 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
                   >
                     <div className="text-[#EA4335]"><GoogleIcon /></div> Google 캘린더
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleNaverCalendar();
+                      setCalendarModalOpen(false);
+                    }}
+                    className="w-full py-3.5 px-4 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
+                  >
+                    <div className="text-[#03C75A]"><NaverIcon /></div> Naver 캘린더
                   </button>
                 </div>
                 <div className="border-t border-gray-100">

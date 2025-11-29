@@ -49,7 +49,7 @@ const LocationSection: React.FC = () => {
                rel="noreferrer"
                className="bg-white/90 backdrop-blur px-6 py-3 rounded-full shadow-lg font-bold text-gray-800 flex items-center gap-2 hover:scale-105 transition-transform"
              >
-               <MapPin className="w-4 h-4 text-[#88A874]" /> 네이버 지도로 보기
+               <MapPin className="w-4 h-4 text-[#fb7185]" /> 네이버 지도로 보기
              </a>
           </div>
         </div>
@@ -57,7 +57,7 @@ const LocationSection: React.FC = () => {
         <div className="space-y-6">
           <div className="bg-gray-50 p-6 rounded-2xl">
             <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#8EB4C9]"/> 자차 이용시
+              <span className="w-2 h-2 rounded-full bg-[#a8a29e]"/> 자차 이용시
             </h4>
             <p className="text-sm text-gray-600 pl-4">
               주차 <strong>가능합니다.</strong><br/>
@@ -67,7 +67,7 @@ const LocationSection: React.FC = () => {
 
           <div className="bg-gray-50 p-6 rounded-2xl">
             <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#88A874]"/> 대중교통 이용시
+              <span className="w-2 h-2 rounded-full bg-[#fb7185]"/> 대중교통 이용시
             </h4>
             <div className="mt-2">
               <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -88,7 +88,7 @@ const LocationSection: React.FC = () => {
                 </div>
               </div>
               <p className="text-xs text-gray-400 mt-2 text-center">
-                역에서 택시 이용시 기본요금 거리로 예상됩니다. 양해부탁드립니다.
+                역에서 택시 이용시 기본요금 거리로 예상됩니다.<br/> 당일 셔틀은 운영되지 않습니다. 너른 양해부탁드립니다.
               </p>
             </div>
           </div>

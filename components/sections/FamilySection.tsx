@@ -4,12 +4,12 @@ import { GROOM_NAME, BRIDE_NAME } from '../../constants';
 
 const FamilySection: React.FC = () => {
   return (
-    <section className="py-20 px-6 bg-[#F5F9F2]">
+    <section className="py-20 px-6 bg-pink-50">
       <FadeInUp>
         <div className="text-left mb-6">
-          <h3 className="text-2xl font-serif-kr font-bold text-gray-800 leading-snug">저희의 부모님이세요.</h3>
+          <h3 className="text-2xl font-serif-kr font-bold text-gray-800 leading-snug">이분들은 저희를<br/>낳아주시고 길러주신<br/>감사한 부모님이십니다.</h3>
         </div>
-        <div className="bg-white py-8 px-2 rounded-3xl shadow-sm border border-[#E6F0E6]">
+        <div className="bg-white py-8 px-2 rounded-3xl shadow-sm border border-pink-100">
           <div className="flex items-center justify-center">
             <div className="text-center w-1/2 border-r border-gray-100">
               <span className="text-gray-400 text-xs block mb-2">신랑측 혼주</span>

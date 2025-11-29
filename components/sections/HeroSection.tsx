@@ -25,7 +25,7 @@ const HeroSection: React.FC = () => {
           <FadeInUp delay={0.4}>
             <h1 className="text-4xl flex w-fit text-center mx-auto font-english text-gray-800 leading-tight">
               {GROOM_NAME}
-              <span className="text-3xl text-[#88A874] font-english my-auto flex items-center">&</span>
+              <span className="text-3xl text-[#fb7185] font-english my-auto flex items-center">&</span>
               {BRIDE_NAME}
             </h1>
           </FadeInUp>

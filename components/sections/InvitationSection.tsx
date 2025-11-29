@@ -6,7 +6,7 @@ const InvitationSection: React.FC = () => {
     <section className="py-20 px-8 text-center bg-white">
       <FadeInUp>
         <div className="mb-8">
-          <span className="text-[#88A874] text-xl">❝</span>
+          <span className="text-[#fb7185] text-xl">❝</span>
         </div>
         <h2 className="text-2xl font-serif-kr font-bold mb-8 leading-relaxed text-gray-800">
           서로가 서로에게<br/>
