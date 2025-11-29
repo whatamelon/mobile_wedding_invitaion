@@ -9,15 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "framer-motion": "^12.23.24",
+    "lucide-react": "^0.454.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "framer-motion": "^12.23.24",
-    "lucide-react": "^0.454.0"
+    "react-lazy-load-image-component": "^1.6.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/react-lazy-load-image-component": "^1.6.5",
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
