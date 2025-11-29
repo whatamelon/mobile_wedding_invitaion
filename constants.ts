@@ -13,3 +13,14 @@ export const THANKS_TO_NAMES = [
   "김고은", "공유", "이동욱", "수지", "박보검", "김유정", "여진구", "조정석",
   "Friends & Family", "All our Guests", "God Bless You"
 ];
+
+// 사진 설정
+// public/images 폴더에 있는 이미지 파일명들을 적어주세요.
+export const WEDDING_IMAGES = [
+  "select_1.webp", "select_2.webp", "select_3.webp", "select_4.webp", "select_5.webp",
+];
+
+export const BEHIND_IMAGES = [
+  "select_56.webp", "select_57.webp", "select_58.webp", "select_59.webp", "select_60.webp",
+  "select_61.webp", "select_62.webp", "select_63.webp", "select_64.webp", "select_65.webp"
+];

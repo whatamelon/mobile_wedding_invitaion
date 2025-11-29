@@ -42,7 +42,7 @@ const HitCounter: React.FC = () => {
          y: (Math.random() - 0.5) * 250, // Vertical spread around center
          scale: Math.random() * 1.2 + 0.8,
          rotation: Math.random() * 360,
-         color: ['#F472B6', '#EC4899', '#DB2777', '#BE185D', '#9D174D'][Math.floor(Math.random() * 5)]
+         color: ['#88A874', '#A4C639', '#8EB4C9', '#A0C3D2', '#94AC7F'][Math.floor(Math.random() * 5)]
        }]);
 
        // Cleanup particle after animation
@@ -79,33 +79,29 @@ const HitCounter: React.FC = () => {
     <>
       {/* 
         Layout Wrapper: 
-        Fixed to bottom of VIEWPORT, but constrained to mobile width (max-w-[480px]) 
-        and centered horizontally. This ensures the button appears inside the "phone" 
-        on PC screens, rather than the far corner of the monitor.
+        Fixed to bottom of VIEWPORT, full width (max-w-[480px]), acting as a bottom bar.
       */}
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] h-0 z-50 overflow-visible pointer-events-none">
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] z-50">
         
-        {/* Floating Action Button */}
+        {/* Full Width Bottom Action Bar */}
         <motion.button 
           onClick={handleClick}
-          className="absolute bottom-6 right-6 pointer-events-auto outline-none"
-          whileTap={{ scale: 0.8 }}
+          className="w-full bg-white/95 backdrop-blur-xl border-t border-[#E6F0E6] shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)] py-4 pb-8 flex items-center justify-center gap-2 active:bg-[#F5F9F2] transition-colors"
+          whileTap={{ scale: 0.98 }}
           animate={isExploding ? { 
-            y: [0, -15, 0],
+            backgroundColor: ["rgba(255, 255, 255, 0.95)", "rgba(245, 249, 242, 0.95)", "rgba(255, 255, 255, 0.95)"],
             transition: { repeat: Infinity, duration: 0.4, ease: "easeInOut" } 
           } : {}}
         >
-          <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-full px-4 py-2 flex items-center gap-2 border-2 border-pink-200 hover:border-pink-400 transition-colors">
             <Heart 
-              className={`w-4 h-4 text-pink-500 fill-pink-500 ${isExploding ? 'animate-ping' : 'animate-pulse'}`} 
+              className={`w-5 h-5 text-[#88A874] fill-[#88A874] ${isExploding ? 'animate-ping' : 'animate-pulse'}`} 
             />
-            <span className="text-xs font-medium text-gray-600 whitespace-nowrap">
-              축하해주신 분들 : <span className="text-pink-600 font-bold text-sm ml-1">{count.toLocaleString()}</span>
+            <span className="text-lg font-bold text-gray-800 font-serif-kr">
+              축하의 마음 전하기 <span className="text-[#88A874] ml-1">{count.toLocaleString()}</span>
             </span>
-          </div>
         </motion.button>
 
-        {/* Heart Explosion Overlay - Centered in Viewport */}
+        {/* Heart Explosion Overlay */}
         {/* Using bottom-[50vh] lifts the origin to the center of the screen */}
         <div className="absolute bottom-[50vh] left-1/2 -translate-x-1/2 w-0 h-0 overflow-visible">
            <AnimatePresence>
