@@ -14,6 +14,19 @@ export const THANKS_TO_NAMES = [
   "Friends & Family", "All our Guests", "God Bless You"
 ];
 
+export const ACCOUNTS = {
+  groom: [
+    { name: "홍국조", relation: "아버지", bank: "국민은행", account: "123-456-78-901234" },
+    { name: "이소희", relation: "어머니", bank: "신한은행", account: "110-123-456789" },
+    { name: "홍승호", relation: "신랑", bank: "토스뱅크", account: "1000-12-345678" },
+  ],
+  bride: [
+    { name: "서용남", relation: "아버지", bank: "우리은행", account: "1002-123-456789" },
+    { name: "박민희", relation: "어머니", bank: "하나은행", account: "123-456789-01207" },
+    { name: "서희주", relation: "신부", bank: "카카오뱅크", account: "3333-12-3456789" },
+  ]
+};
+
 // 사진 설정
 // public/images 폴더에 있는 이미지 파일명들을 적어주세요.
 export const WEDDING_IMAGES = [

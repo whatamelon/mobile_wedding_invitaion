@@ -8,7 +8,8 @@ import GalleryGrid from './components/sections/GalleryGrid';
 import LocationSection from './components/sections/LocationSection';
 import NoticeSection from './components/sections/NoticeSection';
 import GalleryPreview from './components/sections/GalleryPreview';
-import ShareSection from './components/sections/ShareSection';
+import AccountSection from './components/sections/AccountSection';
+import EndingCredits from './components/EndingCredits';
 import Lightbox from './components/Lightbox';
 
 const App: React.FC = () => {
@@ -41,8 +42,9 @@ const App: React.FC = () => {
         <GalleryGrid onImageClick={openLightbox} />
         <LocationSection />
         <NoticeSection />
+        <AccountSection />
         <GalleryPreview onImageClick={openLightbox} />
-        <ShareSection />
+        <EndingCredits />
 
         {/* Floating Hit Counter */}
         <HitCounter />

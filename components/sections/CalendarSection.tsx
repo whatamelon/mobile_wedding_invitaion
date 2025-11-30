@@ -95,17 +95,6 @@ const CalendarSection: React.FC = () => {
     window.open(url, '_blank');
   };
 
-  const handleNaverCalendar = () => {
-    const title = `${GROOM_NAME} & ${BRIDE_NAME} 결혼식`;
-    const description = "저희 두 사람의 새로운 시작을 함께 축복해 주세요.";
-    const location = `${LOCATION_NAME} (${LOCATION_ADDRESS})`;
-    const startDate = "20260321T140000";
-    const endDate = "20260321T160000";
-
-    const url = `https://calendar.naver.com/action/calendar/insert?title=${encodeURIComponent(title)}&startDate=${startDate}&endDate=${endDate}&content=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
-    window.open(url, '_blank');
-  };
-
   const handleDownloadCalendar = () => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     
@@ -232,30 +221,12 @@ const CalendarSection: React.FC = () => {
                   </button>
                   <button
                     onClick={() => {
-                      handleDownloadCalendar();
-                      setCalendarModalOpen(false);
-                    }}
-                    className="w-full py-3.5 px-4 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
-                  >
-                    <div className="text-[#3DDC84]"><AndroidIcon /></div> Android 캘린더
-                  </button>
-                  <button
-                    onClick={() => {
                       handleGoogleCalendar();
                       setCalendarModalOpen(false);
                     }}
                     className="w-full py-3.5 px-4 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
                   >
                     <div className="text-[#EA4335]"><GoogleIcon /></div> Google 캘린더
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleNaverCalendar();
-                      setCalendarModalOpen(false);
-                    }}
-                    className="w-full py-3.5 px-4 rounded-xl bg-gray-50 text-gray-700 text-sm font-bold flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors"
-                  >
-                    <div className="text-[#03C75A]"><NaverIcon /></div> Naver 캘린더
                   </button>
                 </div>
                 <div className="border-t border-gray-100">
