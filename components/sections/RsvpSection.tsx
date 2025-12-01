@@ -7,6 +7,7 @@ import { PopIn } from '../AnimationWrapper';
 
 interface RsvpData {
   id?: string;
+  side: 'groom' | 'bride' | null;
   name: string;
   birthdate: string; // YYYYMMDD
   attendance: 'yes' | 'no' | null;
@@ -16,6 +17,7 @@ interface RsvpData {
 }
 
 const INITIAL_DATA: RsvpData = {
+  side: null,
   name: '',
   birthdate: '',
   attendance: null,
@@ -27,19 +29,21 @@ const INITIAL_DATA: RsvpData = {
 const InputField = ({ 
   label, 
   children, 
-  delay = 0 
+  delay = 0,
+  className = ""
 }: { 
   label: string; 
   children: React.ReactNode; 
-  delay?: number 
+  delay?: number;
+  className?: string;
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay, duration: 0.4 }}
-    className="mb-6"
+    className={`mb-4 ${className}`}
   >
-    <label className="block text-xs text-[#8b7e74] mb-2 font-medium tracking-wider">{label}</label>
+    <label className="block text-[11px] text-[#8b7e74] mb-1.5 font-medium tracking-wider">{label}</label>
     {children}
   </motion.div>
 );
@@ -97,8 +101,8 @@ const RsvpSection: React.FC = () => {
   };
 
   const handleSave = async () => {
-    if (!formData.name || !formData.birthdate || formData.attendance === null || formData.meal === null) {
-      alert("필수 항목을 모두 입력해주세요 (이름, 생년월일, 참석여부, 식사여부)");
+    if (!formData.side || !formData.name || !formData.birthdate || formData.attendance === null || formData.meal === null) {
+      alert("필수 항목을 모두 입력해주세요 (구분, 이름, 생년월일, 참석여부, 식사여부)");
       return;
     }
 
@@ -213,6 +217,7 @@ const RsvpSection: React.FC = () => {
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-[#3b1e1e]">{result.name}</span>
+                    <span className="text-xs text-[#8b7e74]">({result.side === 'groom' ? '신랑측' : '신부측'})</span>
                     <span className={`text-[10px] px-2 py-0.5 rounded-full border ${
                       result.attendance === 'yes' 
                         ? 'bg-[#fdfbf7] text-[#3b1e1e] border-[#3b1e1e]' 
@@ -263,10 +268,10 @@ const RsvpSection: React.FC = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl flex flex-col max-h-[85vh]"
             >
               {/* Header */}
-              <div className="px-6 py-5 border-b border-[#eee] flex items-center justify-between bg-[#fdfbf7]">
+              <div className="px-6 py-4 border-b border-[#eee] flex items-center justify-between bg-[#fdfbf7] flex-shrink-0">
                 <h3 className="text-lg font-serif font-bold text-[#3b1e1e]">참석 정보 입력</h3>
                 <button 
                   onClick={() => handleCloseModal()}
@@ -276,48 +281,74 @@ const RsvpSection: React.FC = () => {
                 </button>
               </div>
 
-              {/* Form */}
-              <div className="p-6 pb-8">
-                <InputField label="성함" delay={0.1}>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#beb3a9]" />
-                    <input
-                      ref={nameRef}
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      onKeyDown={(e) => handleKeyDown(e, birthRef)}
-                      placeholder="성함을 입력해주세요"
-                      className="w-full pl-10 pr-4 py-3 bg-[#f9f9f9] rounded-lg text-[#3b1e1e] text-sm focus:outline-none focus:ring-1 focus:ring-[#3b1e1e] transition-all"
-                    />
+              {/* Form - Scrollable Area */}
+              <div className="p-6 overflow-y-auto custom-scrollbar">
+                {/* 구분 (신랑측/신부측) */}
+                <InputField label="구분" delay={0.05}>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setFormData({ ...formData, side: 'groom' })}
+                      className={`flex-1 py-3 rounded-lg text-sm font-medium transition-all ${
+                        formData.side === 'groom'
+                          ? 'bg-[#3b1e1e] text-white shadow-md'
+                          : 'bg-[#f9f9f9] text-[#8b7e74] hover:bg-[#eee]'
+                      }`}
+                    >
+                      신랑측
+                    </button>
+                    <button
+                      onClick={() => setFormData({ ...formData, side: 'bride' })}
+                      className={`flex-1 py-3 rounded-lg text-sm font-medium transition-all ${
+                        formData.side === 'bride'
+                          ? 'bg-[#3b1e1e] text-white shadow-md'
+                          : 'bg-[#f9f9f9] text-[#8b7e74] hover:bg-[#eee]'
+                      }`}
+                    >
+                      신부측
+                    </button>
                   </div>
                 </InputField>
 
-                <InputField label="생년월일 6자리 (본인 확인용)" delay={0.2}>
-                  <div className="relative">
-                    <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#beb3a9]" />
-                    <input
-                      ref={birthRef}
-                      type="text"
-                      maxLength={6}
-                      value={formData.birthdate}
-                      onChange={(e) => setFormData({ ...formData, birthdate: e.target.value.replace(/[^0-9]/g, '') })}
-                      placeholder="예) 900101"
-                      className="w-full pl-10 pr-4 py-3 bg-[#f9f9f9] rounded-lg text-[#3b1e1e] text-sm focus:outline-none focus:ring-1 focus:ring-[#3b1e1e] transition-all tracking-widest"
-                    />
-                  </div>
-                </InputField>
+                <div className="grid grid-cols-2 gap-3">
+                  <InputField label="성함" delay={0.1}>
+                    <div className="relative">
+                      <input
+                        ref={nameRef}
+                        type="text"
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        onKeyDown={(e) => handleKeyDown(e, birthRef)}
+                        placeholder="성함"
+                        className="w-full px-3 py-3 bg-[#f9f9f9] rounded-lg text-[#3b1e1e] text-sm focus:outline-none focus:ring-1 focus:ring-[#3b1e1e] transition-all"
+                      />
+                    </div>
+                  </InputField>
 
-                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <InputField label="생년월일(6자리)" delay={0.2}>
+                    <div className="relative">
+                      <input
+                        ref={birthRef}
+                        type="text"
+                        maxLength={6}
+                        value={formData.birthdate}
+                        onChange={(e) => setFormData({ ...formData, birthdate: e.target.value.replace(/[^0-9]/g, '') })}
+                        placeholder="예) 900101"
+                        className="w-full px-3 py-3 bg-[#f9f9f9] rounded-lg text-[#3b1e1e] text-sm focus:outline-none focus:ring-1 focus:ring-[#3b1e1e] transition-all tracking-widest"
+                      />
+                    </div>
+                  </InputField>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
                   <InputField label="참석 여부" delay={0.3}>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1">
                       {['yes', 'no'].map((option) => (
                         <button
                           key={option}
                           onClick={() => setFormData({ ...formData, attendance: option as 'yes' | 'no' })}
-                          className={`flex-1 py-3 rounded-lg text-sm font-medium transition-all ${
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-medium transition-all ${
                             formData.attendance === option
-                              ? 'bg-[#3b1e1e] text-white shadow-md transform scale-[1.02]'
+                              ? 'bg-[#3b1e1e] text-white shadow-md'
                               : 'bg-[#f9f9f9] text-[#8b7e74] hover:bg-[#eee]'
                           }`}
                         >
@@ -328,14 +359,14 @@ const RsvpSection: React.FC = () => {
                   </InputField>
 
                   <InputField label="식사 여부" delay={0.4}>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1">
                       {['yes', 'no'].map((option) => (
                         <button
                           key={option}
                           onClick={() => setFormData({ ...formData, meal: option as 'yes' | 'no' })}
-                          className={`flex-1 py-3 rounded-lg text-sm font-medium transition-all ${
+                          className={`flex-1 py-2.5 rounded-lg text-xs font-medium transition-all ${
                             formData.meal === option
-                              ? 'bg-[#3b1e1e] text-white shadow-md transform scale-[1.02]'
+                              ? 'bg-[#3b1e1e] text-white shadow-md'
                               : 'bg-[#f9f9f9] text-[#8b7e74] hover:bg-[#eee]'
                           }`}
                         >
@@ -361,27 +392,27 @@ const RsvpSection: React.FC = () => {
                   </div>
                 </InputField>
 
-                <InputField label="축하의 한마디" delay={0.6}>
-                  <div className="relative">
-                    <MessageSquare className="absolute left-3 top-4 w-4 h-4 text-[#beb3a9]" />
-                    <textarea
-                      ref={messageRef}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="신랑 신부에게 축하의 마음을 전해주세요."
-                      rows={3}
-                      className="w-full pl-10 pr-4 py-3 bg-[#f9f9f9] rounded-lg text-[#3b1e1e] text-sm focus:outline-none focus:ring-1 focus:ring-[#3b1e1e] transition-all resize-none"
-                    />
-                  </div>
+                <InputField label="축하의 한마디" delay={0.6} className="mb-2">
+                  <textarea
+                    ref={messageRef}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="신랑 신부에게 축하의 마음을 전해주세요."
+                    rows={2}
+                    className="w-full p-3 bg-[#f9f9f9] rounded-lg text-[#3b1e1e] text-sm focus:outline-none focus:ring-1 focus:ring-[#3b1e1e] transition-all resize-none"
+                  />
                 </InputField>
+              </div>
 
+              {/* Footer - Fixed Button */}
+              <div className="p-4 border-t border-[#eee] bg-white flex-shrink-0">
                 <motion.button
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.7 }}
                   onClick={handleSave}
                   disabled={submitLoading}
-                  className="w-full bg-[#fb7185] text-white py-4 rounded-xl font-bold text-sm shadow-lg hover:bg-[#f43f5e] active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-4 disabled:opacity-70"
+                  className="w-full bg-[#fb7185] text-white py-3.5 rounded-xl font-bold text-sm shadow-lg hover:bg-[#f43f5e] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70"
                 >
                   {submitLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -402,4 +433,3 @@ const RsvpSection: React.FC = () => {
 };
 
 export default RsvpSection;
-
