@@ -7,6 +7,7 @@ import CalendarSection from './components/sections/CalendarSection';
 import GalleryGrid from './components/sections/GalleryGrid';
 import LocationSection from './components/sections/LocationSection';
 import NoticeSection from './components/sections/NoticeSection';
+import RsvpSection from './components/sections/RsvpSection';
 import GalleryPreview from './components/sections/GalleryPreview';
 import AccountSection from './components/sections/AccountSection';
 import EndingCredits from './components/EndingCredits';
@@ -42,6 +43,7 @@ const App: React.FC = () => {
         <GalleryGrid onImageClick={openLightbox} />
         <LocationSection />
         <NoticeSection />
+        <RsvpSection />
         <AccountSection />
         <GalleryPreview onImageClick={openLightbox} />
         <EndingCredits />
