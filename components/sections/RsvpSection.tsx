@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Edit2, Check, X, User, Calendar as CalendarIcon, Users, Utensils, MessageSquare, Save, Loader2 } from 'lucide-react';
+import { Search, Edit2, Check, X, User, Calendar as CalendarIcon, Users, Utensils, MessageSquare, Save, Loader2, MailOpen } from 'lucide-react';
 import { collection, addDoc, query, where, getDocs, updateDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { PopIn } from '../AnimationWrapper';
@@ -85,6 +85,17 @@ const RsvpSection: React.FC = () => {
     }
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setFormData(INITIAL_DATA);
+    setTimeout(() => {
+      const accountSection = document.getElementById('account-section');
+      if (accountSection) {
+        accountSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300); // Wait for modal close animation
+  };
+
   const handleSave = async () => {
     if (!formData.name || !formData.birthdate || formData.attendance === null || formData.meal === null) {
       alert("필수 항목을 모두 입력해주세요 (이름, 생년월일, 참석여부, 식사여부)");
@@ -126,11 +137,10 @@ const RsvpSection: React.FC = () => {
         alert("소중한 의사 전달 감사합니다.");
       }
       
-      setIsModalOpen(false);
-      setFormData(INITIAL_DATA);
       setSearchName('');
       setSearchResults([]);
       setHasSearched(false);
+      handleCloseModal();
     } catch (error) {
       console.error("Error saving document: ", error);
       alert("저장 중 오류가 발생했습니다.");
@@ -245,7 +255,7 @@ const RsvpSection: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => handleCloseModal()}
               className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             />
             
@@ -259,7 +269,7 @@ const RsvpSection: React.FC = () => {
               <div className="px-6 py-5 border-b border-[#eee] flex items-center justify-between bg-[#fdfbf7]">
                 <h3 className="text-lg font-serif font-bold text-[#3b1e1e]">참석 정보 입력</h3>
                 <button 
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => handleCloseModal()}
                   className="text-[#beb3a9] hover:text-[#3b1e1e] transition-colors"
                 >
                   <X className="w-5 h-5" />
@@ -377,7 +387,7 @@ const RsvpSection: React.FC = () => {
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      <Save className="w-4 h-4" />
+                      <MailOpen className="w-4 h-4" />
                       마음 전달하기
                     </>
                   )}

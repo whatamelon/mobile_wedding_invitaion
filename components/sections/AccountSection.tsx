@@ -82,7 +82,7 @@ const AccountSection: React.FC = () => {
   const currentAccounts = activeTab === 'groom' ? ACCOUNTS.groom : ACCOUNTS.bride;
 
   return (
-    <section className="py-24 px-6 bg-white">
+    <section id="account-section" className="py-24 px-6 bg-white">
       <PopIn>
         <h2 className="text-2xl font-serif text-[#3b1e1e] text-left font-bold mb-4 leading-relaxed">
           마음 전하실 곳
