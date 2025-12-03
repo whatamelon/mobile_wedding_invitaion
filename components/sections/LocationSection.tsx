@@ -54,6 +54,14 @@ const LocationSection: React.FC = () => {
           </div>
         </div>
 
+        <div className="w-full rounded-2xl overflow-hidden mb-4 border border-gray-100">
+          <img 
+            src="/images/web/wooricc_map.png" 
+            className="w-full h-auto" 
+            alt="오시는 길 약도" 
+          />
+        </div>
+
         <div className="space-y-6">
           <div className="bg-gray-50 p-6 rounded-2xl">
             <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
